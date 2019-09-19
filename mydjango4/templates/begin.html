@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>人流量监测云平台</title>
+<meta charset="utf-8">
+<!--<link href="static/css/normalize.css" rel="stylesheet" type="text/css" />-->
+<!--<link href="static/css/base.css" rel="stylesheet" type="text/css">-->
+<!--<link href="static/css/index.css" rel="stylesheet" type="text/css">-->
+	<script src="{{ url_for('static', filename='css/index.css') }} "></script>
+	<script src="{{ url_for('static', filename='css/normalize.css') }} "></script>
+	<script src="{{ url_for('static', filename='css/base.css') }} "></script>
+    <link rel="stylesheet"  type="text/css"  href="{{ url_for('static', filename='css/index.css') }} ">
+    <link rel="stylesheet"  type="text/css"  href="{{ url_for('static', filename='css/normalize.css') }} ">
+    <link rel="stylesheet"  type="text/css"  href="{{ url_for('static', filename='css/base.css') }} ">
+
+</head>
+<body>
+	<div class="content">
+		<header class="navbar">
+	<div class="container">
+		<a class="logo" href="index.html"> </a>
+		<nav class="nav">
+			<ul>
+				<li ><a href="{{ url_for('information') }}">视频</a></li>
+                <li ><a href="{{ url_for('list') }}">警报</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+		<div class="index_bg"></div>
+		<section class="index-con">
+				<h1 class="title"></h1>
+				<div class="text">
+					<i></i><i></i><i></i>
+				</div>
+				<a class="button" href="{{ url_for('information') }}">
+                    <i></i><span>进入</span>
+
+				</a>
+		</section>
+		<footer>
+	<div class="container">
+		<ul >
+			<li>
+				<ul class="footer-icon">
+					<li>
+
+					</li>
+
+					</ul>
+			</li>
+		</ul>
+	</div>
+</footer>
+
+	</div>
+</body>
+</html>

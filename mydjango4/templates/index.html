@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }} ">
+
+    <script type="text/javascript" src="{{ url_for('static', filename='index.css') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='echarts-all.js') }}"></script>
+     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!--导入jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script> <!--导入jQuery-->
+    <title>人流量监控云平台</title>
+     <!--<img src="{{ url_for('video_feed') }}">-->
+     <!--<img src="{{ url_for('video_feed2') }}">-->
+    <!--<canvas id="panel" height="330px" width="500px"> </canvas>-->
+    <!--<canvas id="panel2" height="330px" width="500px"> </canvas>-->
+</head>
+<body>
+<div class="right">
+                <!-- 视频 -->
+                <div class="card">
+                   <img  height="250px" width="100%" src="{{ url_for('video_feed3') }}">
+                    <!-- 地点名字 -->
+                    <div class="container">
+                       市郊区
+                    </div>
+                </div>
+
+                <!-- 人头统计卡片 -->
+                <div class="person">
+                     <h6>人流峰值：</h6> <p  id ="NAME3">0</p><br>
+                    <h6>总人流量：</h6> <p  id ="AGE3">0</p>
+                </div>
+                <!-- 折线图 -->
+                <div class="charts">
+                    <canvas id="panel3" height="250px" width="440px"> </canvas>
+                </div>
+        </div>
+
+        <div class="middle">
+                <!-- 视频 -->
+                <div class="card">
+                       <img  height="250px" width="100%" src="{{ url_for('video_feed2') }}">
+                        <div class="container">
+                           市二环
+                        </div>
+                    </div>
+
+                <!-- 人头统计卡片 -->
+                <div class="person">
+                       <h6>人流峰值：</h6> <p  id ="NAME2">0</p><br>
+                    <h6>总人流量：</h6> <p  id ="AGE2">0</p>
+                    </div>
+                    <!-- 折线图 -->
+                    <div class="charts">
+                        <canvas id="panel2"  height="250px" width="440px">
+                    </div>
+        </div>
+
+      <div class="left">
+                <!-- 视频 -->
+                <div class="card">
+                    <img height="250px" width="100%" src="{{ url_for('video_feed') }}">
+                    <!-- 地点名字 -->
+                    <div class="container">
+                       市中心
+                    </div>
+                </div>
+
+                <!-- 人头统计卡片 -->
+                <div class="person">
+                    <h6>人流峰值：</h6> <p  id ="NAME">0</p><br>
+                    <h6>总人流量：</h6> <p  id ="AGE">0</p>
+                </div>
+                <!-- 折线图 -->
+                <div class="charts">
+                    <canvas id="panel" height="250px" width="440px"> </canvas>
+                </div>
+        </div>
+</body>
+</html>
+ <script type="text/javascript">
+  $(function () {
+        var can = $('#panel').get(0).getContext('2d'); /*绘制类型*/
+        //定义图标的数据
+        var canData = {
+            labels:["0",], /*初始x轴数据*/
+            datasets : [
+                {
+                    //折线的填充颜色
+                    fillColor:"rgba(255,255,255,0.1)",
+                    //线条颜色：
+                    strokeColor:"rgba(255,0,0,1)",
+                    //y轴初始数据：
+                    data:[0,]
+                }
+            ]
+        };
+         var can2 = $('#panel2').get(0).getContext('2d'); /*绘制类型*/
+        //定义图标的数据
+        var canData2 = {
+            labels:["0",], /*初始x轴数据*/
+            datasets : [
+                {
+                    //折线的填充颜色
+                    fillColor:"rgba(255,255,255,0.1)",
+                    //线条颜色：
+                    strokeColor:"rgba(255,0,0,1)",
+                    //y轴初始数据：
+                    data:[0,]
+                }
+            ]
+        };
+     var can3 = $('#panel3').get(0).getContext('2d'); /*绘制类型*/
+        //定义图标的数据
+        var canData3 = {
+            labels:["0",], /*初始x轴数据*/
+            datasets : [
+                {
+                    //折线的填充颜色
+                    fillColor:"rgba(255,255,255,0.1)",
+                    //线条颜色：
+                    strokeColor:"rgba(255,0,0,1)",
+                    //y轴初始数据：
+                    data:[0,]
+                }
+            ]
+        };
+        //绘制图片
+        var line = new Chart(can).Line(canData);
+        var line2 = new Chart(can2).Line(canData2);
+        var line3 = new Chart(can3).Line(canData3);
+        var int = setInterval(function () {  //设置定时器
+           $.ajax(
+               {
+                   url:"/setData/", //从setData函数中获取数据
+                   type:"get",
+                   data:"",
+                   success:function (data) {
+                        $("#NAME").text(data.max);
+                        $("#AGE").text(data.sum);
+                        $("#NAME2").text(data.max2);
+                        $("#AGE2").text(data.sum2);
+                        $("#NAME3").text(data.max3);
+                        $("#AGE3").text(data.sum3);
+                       line.addData(
+                           [data["data"]], //y轴，因为同一个x轴可以有多个折线
+                           data["time"]  //x轴
+                       );
+                       //保持x轴只有8个数据，要不随着时间推移x轴会越来越长
+                       var len = line.datasets[0].points.length;
+                       if(len>8){
+                           line.removeData()
+                       }
+                        line2.addData(
+                           [data["data2"]], //y轴，因为同一个x轴可以有多个折线
+                           data["time2"]  //x轴
+                       );
+                       //保持x轴只有8个数据，要不随着时间推移x轴会越来越长
+                       var len2 = line2.datasets[0].points.length;
+                       if(len2>8){
+                           line2.removeData()
+                       }
+
+                       line3.addData(
+                           [data["data3"]], //y轴，因为同一个x轴可以有多个折线
+                           data["time3"]  //x轴
+                       );
+                       //保持x轴只有8个数据，要不随着时间推移x轴会越来越长
+                       var len3 = line3.datasets[0].points.length;
+                       if(len3>8){
+                           line3.removeData()
+                       }
+                   }
+               }
+           )
+        },1000)
+    })
+
+</script>

@@ -1,0 +1,78 @@
+
+.bgvid{
+    width: 100%; 
+    height: auto;
+    border-radius: 5px 5px 0 0;
+}
+.right{
+    float:right;
+    width: 25%;
+    height: 100%;
+    margin-right: 7%;
+    align-content: center;
+}
+
+.middle{
+    float:right;
+    height: 100%;
+    width: 25%;
+    margin-right: 4.8%;
+}
+
+.left{
+    float:right;
+    height: 100%;
+    width: 25%;
+    margin-right: 4.8%;
+}
+
+.card{
+    margin-top: 40%;
+    width: 100%;
+    box-shadow:0 6px 6px 0 rgba(68, 68, 68, 0.2);
+    border-radius: 5px;
+    background: white;
+}
+
+.card:hover{  
+    transform: scale(1.1);  
+}  
+
+.text {
+    text-align:center; /* 文字居中 */
+    padding-top:10px; /* 底内边距 */
+    padding-bottom:10px; /* 底内边距 */
+    font-size: 16px;
+}
+
+.person{
+    box-shadow:0 6px 6px 0 rgba(68, 68, 68, 0.2);
+    border-radius: 5px;
+    background: white;
+    margin-top: 10px;
+    padding: 10px 10px 10px 36%;
+}
+
+h6{
+    font-size: 14px;
+    font-weight: 400;
+    display: inline;
+}
+p{
+    display: inline;
+}
+
+.charts{
+    height: auto;
+    box-shadow:0 6px 6px 0 rgba(68, 68, 68, 0.2);
+    border-radius: 5px;
+    background: white;
+    margin-top: 10px;
+    padding: 10px 10px 10px 10px;
+}
+
+.popup{
+    box-shadow:0 6px 6px 0 rgba(68, 68, 68, 0.2);
+    border-radius: 10px;
+    border: 3px solid ;
+}

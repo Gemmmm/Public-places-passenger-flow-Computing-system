@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>人流量监控云平台--峰值截图</title>
+  <link rel="stylesheet"  type="text/css"  href="{{ url_for('static', filename='css/index.css') }} ">
+  <link rel="stylesheet"  type="text/css"  href="{{ url_for('static', filename='css/pic.css') }} ">
+  <link rel="stylesheet"  type="text/css"  href="{{ url_for('static', filename='css/base.css') }} ">
+  <link rel="stylesheet"  type="text/css"  href="{{ url_for('static', filename='css/main.css') }} ">
+  <link rel="stylesheet"  type="text/css"  href="{{ url_for('static', filename='css/m.css') }} ">
+<!--<link href="css/index.css" rel="stylesheet" type="text/css">-->
+<!--<link href="css/pic.css" rel="stylesheet" type="text/css">-->
+<!--<link href="css/base.css" rel="stylesheet">-->
+<!--<link href="css/main.css" rel="stylesheet">-->
+<!--<link href="css/m.css" rel="stylesheet">-->
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+</head>
+
+<body>
+      <header class="navbar">
+        <div class="container">
+          <a class="logo" href="index.html"> </a>
+          <nav class="nav">
+            <ul>
+              <li ><a href="{{ url_for('information') }}">视频</a></li>
+                <li ><a href="{{ url_for('list') }}">警报</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      
+    <div class="index_bg" style="z-index: -100"></div>
+    <div class="con_content"style="margin-top: 130px;">
+      <div class="lispic" >
+        <ul>
+
+          <li><a href="#"><i><img src="{{ url_for('static', filename='images/list/photo_1.jpg') }}"></i><span>1</span></a></li>
+          <li><a href="#"><i><img src="{{ url_for('static', filename='images/list/photo_2.jpg') }}"></i><span>2</span></a></li>
+          <li><a href="#"><i><img src="{{ url_for('static', filename='images/list/photo_3.jpg') }}"></i><span>3</span></a></li>
+          <li><a href="#"><i><img src="{{ url_for('static', filename='images/list/photo_4.jpg') }}"></i><span>4</span></a></li>
+          <li><a href="#"><i><img src="{{ url_for('static', filename='images/list/photo_5.jpg') }}"></i><span>5</span></a></li>
+          <li><a href="#"><i><img src="{{ url_for('static', filename='images/list/photo_6.jpg') }}"></i><span>6</span></a></li>
+          <li><a href="#"><i><img src="{{ url_for('static', filename='images/list/photo_7.jpg') }}"></i><span>7</span></a></li>
+          <li><a href="#"><i><img src="{{ url_for('static', filename='images/list/photo_8.jpg') }}"></i><span>8</span></a></li>
+        </ul>
+      </div>
+      <div class="pagelist"><a href="#">首页</a><a href="#">上一页</a><a href="#">下一页</a><a href="#">尾页</a></div>
+    </div>
+</div>
+</body>
+</html>

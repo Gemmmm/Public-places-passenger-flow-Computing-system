@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="panel" height="330px" width="700px"> </canvas>  <!--折线图位置-->
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!--导入jQuery-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script> <!--导入jQuery-->
+<script>
+    $(function () {
+        var can = $('#panel').get(0).getContext('2d'); /*绘制类型*/
+        //定义图标的数据
+        var canData = {
+            labels:["0",], /*初始x轴数据*/
+            datasets : [
+                {
+                    //折线的填充颜色
+                    fillColor:"rgba(255,255,255,0.1)",
+                    //线条颜色：
+                    strokeColor:"rgba(255,0,0,1)",
+                    //y轴初始数据：
+                    data:[0,]
+                }
+            ]
+        };
+        //绘制图片
+        var line = new Chart(can).Line(canData);
+        var int = setInterval(function () {  //设置定时器
+           $.ajax(
+               {
+                   url:"/setData/", //从setData函数中获取数据
+                   type:"get",
+                   data:"",
+                   success:function (data) {
+                       line.addData(
+                           [data["data"]], //y轴，因为同一个x轴可以有多个折线
+                           data["time"]  //x轴
+                       );
+                       //保持x轴只有8个数据，要不随着时间推移x轴会越来越长
+                       var len = line.datasets[0].points.length;
+                       if(len>8){
+                           line.removeData()
+                       }
+                   }
+               }
+           )
+        },1000)
+    })
+
+</script>
+</body>
+</html>

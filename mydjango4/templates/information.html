@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+        <meta charset="UTF-8">
+        <title>人流量监控云平台--详情</title>
+        <link rel="stylesheet" href="css/information.css ">
+        <link href="css/normalize.css" rel="stylesheet" type="text/css" />
+        <link href="css/base.css" rel="stylesheet" type="text/css">
+        <link href="css/index.css" rel="stylesheet" type="text/css">
+        <link href="css/xcConfirm.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery-1.9.1.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet"   href="{{ url_for('static', filename='css/information.css') }} ">
+    <link rel="stylesheet"   href="{{ url_for('static', filename='css/normalize.css') }} ">
+    <link rel="stylesheet"   href="{{ url_for('static', filename='css/base.css') }} ">
+    <link rel="stylesheet"   href="{{ url_for('static', filename='css/index.css') }} ">
+    <link rel="stylesheet"   href="{{ url_for('static', filename='css/xcConfirm.css') }} ">
+    <script src="{{ url_for('static', filename='js/jquery-1.9.1.js') }} "></script>
+    <script src="{{ url_for('static', filename='js/xcConfirm.js') }} "></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!--导入jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script> <!--导入jQuery-->
+</head>
+<body>
+        <header class="navbar">
+          <div class="container">
+            <a class="logo" href="index.html"> </a>
+              <nav class="nav">
+                <ul>
+                 <li ><a href="{{ url_for('information') }}">视频</a></li>
+                <li ><a href="{{ url_for('list') }}">警报</a></li>
+                </ul>
+              </nav>
+            </div>
+        </header>
+
+        <div class="index_bg" style="z-index: -100"></div>
+        <div class="right">
+                <!-- 视频 -->
+                <div class="card">
+                  <img src="{{ url_for('video_feed3') }}" >
+                    <!-- 地点名字 -->
+                    <div class="text" id="海浪">
+                       市郊区
+                    </div>
+                </div>
+
+                <!-- 人头统计卡片 -->
+                <div class="person">
+                    <!--<h6>当前人流量：</h6> <p id="num">256</p><br>-->
+                    <!--<h6>今日人流量：</h6> <p>1234</p>-->
+                    <h6>人流峰值：</h6> <p  id ="NAME3">0</p><br>
+                    <h6>总人流量：</h6> <p  id ="AGE3">0</p>
+                </div>
+                <!-- 折线图 -->
+                <div class="charts">
+                    <canvas id="panel3" height="150px" width="300px"></canvas>
+                </div>
+        </div>
+
+        <div class="middle">
+                <!-- 视频 -->
+                <div class="card">
+                       <img src="{{ url_for('video_feed2') }}">
+                        <div class="text">
+                           市二环
+                        </div>
+                    </div>
+
+                <!-- 人头统计卡片 -->
+                <div class="person">
+                         <h6>人流峰值：</h6> <p  id ="NAME2">0</p><br>
+                    <h6>总人流量：</h6> <p  id ="AGE2">0</p>
+                    </div>
+                    <!-- 折线图 -->
+                    <div class="charts">
+                        <canvas id="panel2" height="150px" width="300px"></canvas>
+                    </div>
+        </div>
+        <div class="left">
+          <!-- 视频 -->
+          <div class="card">
+                 <img src="{{ url_for('video_feed') }}"  height="150px" width="100%">
+                  <div class="text">
+                    市中心
+                  </div>
+              </div>
+
+          <!-- 人头统计卡片 -->
+          <div class="person">
+                     <h6>人流峰值：</h6> <p  id ="NAME">0</p><br>
+                    <h6>总人流量：</h6> <p  id ="AGE">0</p>
+              </div>
+              <!-- 折线图 -->
+              <div class="charts">
+                   <canvas id="panel" height="150px" width="300px"></canvas>
+              </div>
+  </div>
+  </div>
+</body>
+
+<script type="text/javascript">
+  $(function(){
+    $("#btn1").click(function(){
+      var numb = document.getElementById('num').innerText;
+      if (numb > 250)
+         var txt=document.getElementById("海浪").id + " 地区人数超过峰值";
+         var number = "目前人数为：" + document.getElementById("num").innerText;
+         window.wxc.xcConfirm(txt + number, window.wxc.xcConfirm.typeEnum.info);
+         setTimeout("document.body.removeChild(pop_1)",500);
+    });
+  });
+  function warning(place,numb ){
+         var txt=place + "地区人数超过阈值";
+         var number = "目前人数为：" + numb;
+         window.wxc.xcConfirm(txt + number, window.wxc.xcConfirm.typeEnum.info);
+         setTimeout("document.body.removeChild(pop_1)",500);
+    });
+</script>
+
+</html>
+
+ <script type="text/javascript">
+  function warning(place,numb )
+  {
+         var txt=place + "地区人数超过阈值";
+         var number = "目前人数为：" + numb;
+         window.wxc.xcConfirm(txt + number, window.wxc.xcConfirm.typeEnum.info);
+         setTimeout("document.body.removeChild(pop_1)",600);
+    }
+  $(function () {
+        var can = $('#panel').get(0).getContext('2d'); /*绘制类型*/
+        //定义图标的数据
+        var canData = {
+            labels:["0",], /*初始x轴数据*/
+            datasets : [
+                {
+                    //折线的填充颜色
+                    fillColor:"rgba(255,255,255,0.1)",
+                    //线条颜色：
+                    strokeColor:"rgba(255,0,0,1)",
+                    //y轴初始数据：
+                    data:[0,]
+                }
+            ]
+        };
+         var can2 = $('#panel2').get(0).getContext('2d'); /*绘制类型*/
+        //定义图标的数据
+        var canData2 = {
+            labels:["0",], /*初始x轴数据*/
+            datasets : [
+                {
+                    //折线的填充颜色
+                    fillColor:"rgba(255,255,255,0.1)",
+                    //线条颜色：
+                    strokeColor:"rgba(255,0,0,1)",
+                    //y轴初始数据：
+                    data:[0,]
+                }
+            ]
+        };
+     var can3 = $('#panel3').get(0).getContext('2d'); /*绘制类型*/
+        //定义图标的数据
+        var canData3 = {
+            labels:["0",], /*初始x轴数据*/
+            datasets : [
+                {
+                    //折线的填充颜色
+                    fillColor:"rgba(255,255,255,0.1)",
+                    //线条颜色：
+                    strokeColor:"rgba(255,0,0,1)",
+                    //y轴初始数据：
+                    data:[0,]
+                }
+            ]
+        };
+        //绘制图片
+        var line = new Chart(can).Line(canData);
+        var line2 = new Chart(can2).Line(canData2);
+        var line3 = new Chart(can3).Line(canData3);
+        var int = setInterval(function () {  //设置定时器
+           $.ajax(
+               {
+                   url:"/setData/", //从setData函数中获取数据
+                   type:"get",
+                   data:"",
+                   success:function (data) {
+                        $("#NAME").text(data.max);
+                        $("#AGE").text(data.sum);
+                        $("#NAME2").text(data.max2);
+                        $("#AGE2").text(data.sum2);
+                        $("#NAME3").text(data.max3);
+                        $("#AGE3").text(data.sum3);
+                        if(data["data"]>=2)
+                        {
+                            console.log(data["data"])
+                            warning("市中心",data["data"])
+                         }
+                           if(data["data3"]>=2)
+                        {
+                            console.log(data["data3"])
+                            warning("市郊区",data["data3"])
+                         }
+                           if(data["data2"]>=2)
+                        {
+                            console.log(data["data"])
+                            warning("市二环",data["data2"])
+                         }
+                       line.addData(
+                           [data["data"]], //y轴，因为同一个x轴可以有多个折线
+                           data["time"]  //x轴
+                       );
+                       //保持x轴只有8个数据，要不随着时间推移x轴会越来越长
+                       var len = line.datasets[0].points.length;
+                       if(len>6){
+                           line.removeData()
+                       }
+                        line2.addData(
+                           [data["data2"]], //y轴，因为同一个x轴可以有多个折线
+                           data["time2"]  //x轴
+                       );
+                       //保持x轴只有8个数据，要不随着时间推移x轴会越来越长
+                       var len2 = line2.datasets[0].points.length;
+                       if(len2>6){
+                           line2.removeData()
+                       }
+
+                       line3.addData(
+                           [data["data3"]], //y轴，因为同一个x轴可以有多个折线
+                           data["time3"]  //x轴
+                       );
+                       //保持x轴只有8个数据，要不随着时间推移x轴会越来越长
+                       var len3 = line3.datasets[0].points.length;
+                       if(len3>6){
+                           line3.removeData()
+                       }
+                   }
+               }
+           )
+        },1000)
+    })
+
+</script>
